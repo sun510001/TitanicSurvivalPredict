@@ -72,7 +72,7 @@ def Random_Forest(X_train, Y_train, X_test):
 
 
 def train_it(list_features, filepath, is_forest):
-    df_train = pd.read_csv('../../data/titanic/train_proc.csv')
+    df_train = pd.read_csv('../data/train_proc.csv')
     fig_name = 'loss.v1.png'
     # print(train.shape, test.shape)
 
@@ -85,7 +85,7 @@ def train_it(list_features, filepath, is_forest):
         return []
     else:
         # Random Forest
-        df_test = pd.read_csv('../../data/titanic/test_proc.csv')
+        df_test = pd.read_csv('../data/test_proc.csv')
         X_test = df_test[list_features].values
         # Y_test = Random_Forest(train_x, train_y, X_test)
         Y_test = Random_Forest(train_x, train_y, X_test)
@@ -93,8 +93,8 @@ def train_it(list_features, filepath, is_forest):
 
 
 def test_it(list_features, filepath, Y_test):
-    df_gen = pd.read_csv('../../data/titanic/gender_submission.csv')
-    df_test = pd.read_csv('../../data/titanic/test_proc.csv')
+    df_gen = pd.read_csv('../data/gender_submission.csv')
+    df_test = pd.read_csv('../data/test_proc.csv')
 
     if Y_test == []:
         model = models.load_model(filepath)
@@ -107,45 +107,15 @@ def test_it(list_features, filepath, Y_test):
     df_gen.loc[df_gen['Survived'] <= 0.5, 'Survived'] = 0
     df_gen.loc[df_gen['Survived'] > 0.5, 'Survived'] = 1
     df_gen['Survived'] = df_gen['Survived'].astype(int)
-    df_gen.to_csv('../../data/titanic/gender_submission_out.csv', index=False)
+    df_gen.to_csv('../data/gender_submission_out.csv', index=False)
 
-
-def com_answer(input_rate):
-    df = pd.read_csv('../../data/titanic/gender_submission_out.csv')
-    df_ans = pd.read_csv('../../data/titanic/100answer.csv')
-
-    df['ans'] = df_ans['Survived']
-
-    count = [0]
-
-    def com(input):
-        if input[1] != input[2]:
-            count[0] += 1
-
-    df.apply(com, axis=1)
-
-    miss = count[0]
-    sum = df['ans'].count()
-    rate = (sum - miss) / sum
-    # print("Miss count:", miss, "\nSum count:", sum, "\nAcc rate:", rate)
-    print("Acc rate:", rate)
-    # print('---------------')
-    if rate > input_rate:
-        df = df.drop('ans', axis=1)
-        df.to_csv('../../data/titanic/gender_submission_out_best.csv', index=False)
-        return rate
-    else:
-        return input_rate
 
 
 if __name__ == '__main__':
     list_features = ['Pclass', 'Sex', 'Fare', 'cabin_p1', 'Embarked', 'Parch', 'age_proc', 'fs',
                      'is_alone', 'Title', 'is_3class', 'has_cabin', 'name_len', 'Family_Survival']
-    file_path = "../../data/titanic/best_model.hdf5"
+    file_path = "../data/best_model.hdf5"
     is_forest = 0
     rate = 0
-    for i in range(20):
-        Y_test = train_it(list_features, file_path, is_forest)
-        test_it(list_features, file_path, Y_test)
-        rate = com_answer(rate)
-    print("The best rate is:", rate)
+    Y_test = train_it(list_features, file_path, is_forest)
+    test_it(list_features, file_path, Y_test)

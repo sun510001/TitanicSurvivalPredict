@@ -255,7 +255,7 @@ def relation_check(df):
 
 # def simple_features_code(list_in):
 #     print("simple_features_code start.")
-#     path = '../../data/titanic/code_feature.txt'
+#     path = '../data/code_feature.txt'
 #     with open(path, 'w', encoding='utf-8') as f_w:
 #         list_unq = list(set(list_in))
 #         string_unq = ",".join(list_unq)
@@ -265,7 +265,7 @@ def relation_check(df):
 #
 # def simple_features_encode(df):
 #     print("simple_features_encode start.")
-#     path = '../../data/titanic/code_feature.txt'
+#     path = '../data/code_feature.txt'
 #     with open(path, 'r', encoding='utf-8') as f_r:
 #         read_list = f_r.readline()
 #     list_unq = read_list.split(",")
@@ -278,9 +278,8 @@ def relation_check(df):
 
 
 if __name__ == '__main__':
-    train = pd.read_csv('../../data/titanic/train.csv')
-    test = pd.read_csv('../../data/titanic/test.csv')
-    # gender = pd.read_csv('../../data/titanic/gender_submission.csv')
+    train = pd.read_csv('../data/train.csv')
+    test = pd.read_csv('../data/test.csv')
 
     test.insert(loc=1, column='Survived', value=0)
     # train data:[:891]; test data:[891:]
@@ -292,12 +291,12 @@ if __name__ == '__main__':
     # features_list = ['Pclass', 'Sex', 'Fare', 'Cabin', 'is_alone', 'Title']
     df_merge = df_merge[features_list + ['Survived']]
     relation_check(df_merge)
-    df_merge.to_csv('../../data/titanic/df_merge.csv', index=False)
+    df_merge.to_csv('../data/df_merge.csv', index=False)
 
     scaler = StandardScaler()
     df_merge_std = pd.DataFrame(scaler.fit_transform(df_merge[features_list].values), columns=features_list)
     df_merge_std['Survived'] = df_merge['Survived']
     df_train = df_merge_std[:891]
     df_test = df_merge_std[891:]
-    df_train.to_csv('../../data/titanic/train_proc.csv', index=False)
-    df_test.to_csv('../../data/titanic/test_proc.csv', index=False)
+    df_train.to_csv('../data/train_proc.csv', index=False)
+    df_test.to_csv('../data/test_proc.csv', index=False)
