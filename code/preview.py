@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score
 
-train = pd.read_csv('../data/train_proc.csv')
+train = pd.read_csv('../../data/titanic/train_proc.csv')
 # tit1 = train.select_dtypes(include=['float64', 'int64', 'object'])
 # train.info()
 
-test = pd.read_csv('../data/test_proc.csv')
+test = pd.read_csv('../../data/titanic/test_proc.csv')
 # tit2 = test.select_dtypes(include=['float64', 'int64', 'object'])
 # test.info()
 #
